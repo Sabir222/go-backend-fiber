@@ -77,3 +77,15 @@ psql -U postgres
 \c backenddb
 
 ```
+
+## Link Project with Database
+
+Install packages
+
+```bash
+
+go get github.com/joho/godotenv
+
+go get github.com/jackc/pgx/v5
+
+```
