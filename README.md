@@ -1,3 +1,6 @@
+# go
+
+```
 my-fiber-app/
 ├── cmd/
 │ └── my-fiber-app/
@@ -29,3 +32,4 @@ my-fiber-app/
 ├── go.mod
 ├── go.sum
 └── README.md
+```
