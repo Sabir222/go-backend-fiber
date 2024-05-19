@@ -1,53 +1,8 @@
-# go
+# Go Backend using Fiber PostgreSQL JWT (In progress)
 
-
-# Project Structure
+## Project Structure
 
 This project is organized as follows:
-
-## Root Directory
-
-- **`cmd/`**: Entry point of the application.
-  - **`main.go`**: Main file that initializes and starts the application.
-
-- **`pkg/`**: Core functionality of the application.
-  - **`handlers/`**: Request handlers (controllers) that handle incoming HTTP requests and send responses back to the client.
-    - **`user_handler.go`**: Handles requests related to user operations, such as registration, login, and profile management.
-  - **`models/`**: Data structures that represent core entities and their relationships.
-    - **`user.go`**: Defines the User model, representing a user in the system.
-  - **`repositories/`**: Data access layer interacting with the database for CRUD operations.
-    - **`user_repository.go`**: Functions to query, insert, update, and delete user data from the database.
-  - **`services/`**: Business logic layer that processes data and performs operations requested by handlers.
-    - **`user_service.go`**: Implements business logic related to users, such as validating input, encrypting passwords, and handling user operations.
-  - **`middlewares/`**: Middleware functions that intercept requests and responses to apply common functionality like authentication and logging.
-    - **`auth_middleware.go`**: Middleware for handling authentication and authorization using JWT tokens.
-  - **`utils/`**: Utility functions and helpers used throughout the application.
-    - **`response.go`**: Utility functions for formatting and sending HTTP responses.
-
-- **`internal/`**: Private application and library code that shouldn't be used outside the project.
-  - **`app/`**: Application setup and routing logic.
-    - **`router.go`**: Defines the routes for the application and assigns handlers to these routes.
-  - **`database/`**: Database initialization and connection management.
-    - **`connection.go`**: Sets up and manages the connection to the PostgreSQL database.
-  - **`auth/`**: Authentication and authorization logic.
-    - **`jwt.go`**: Functions for generating and validating JWT tokens.
-
-- **`config/`**: Configuration files and setup for managing environment variables and application settings.
-  - **`config.go`**: Loads and manages configuration settings from environment variables or configuration files.
-
-- **`scripts/`**: Scripts for automation, database setup, and other tasks.
-  - **`migrate.sh`**: Script for running database migrations.
-
-- **`docs/`**: Documentation for the project.
-  - **`api.md`**: Documentation for the API endpoints, explaining how to use them, request/response formats, and examples.
-
-- **`Makefile`**: A file containing a set of directives used by the `make` build automation tool to perform tasks such as building and running the application.
-
-- **`go.mod`**: Go module file that defines the module's dependencies and versions.
-
-- **`go.sum`**: A checksum file used to verify the integrity of dependencies.
-
-## Example Directory Structure
 
 ```plaintext
 myproject/
@@ -84,36 +39,41 @@ myproject/
 └── go.sum
 
 ```
+
+## Connect go to database
+
+- Go to docker hub and sign-up : [DockerHub](https://hub.docker.com/_/postgres).
+- Login to docker-hub in your terminal by using `docker login` then enter username and pw or using [token](https://hub.docker.com/settings/security) docker login -u (username)` then enter your token.
+
+To run a PostgreSQL container use the following command:
+
+```bash
+docker run --name some-postgres -p 5432:5432 -e POSTGRES_PASSWORD=MySecretPassword -d postgres
 ```
-my-fiber-app/
-├── cmd/
-│ └── my-fiber-app/
-│ └── main.go
-├── config/
-│ └── config.go
-├── internal/
-│ ├── handlers/
-│ │ ├── user_handler.go
-│ │ └── product_handler.go
-│ ├── middleware/
-│ │ ├── auth_middleware.go
-│ │ └── logging_middleware.go
-│ ├── models/
-│ │ ├── user.go
-│ │ └── product.go
-│ ├── repositories/
-│ │ ├── user_repository.go
-│ │ └── product_repository.go
-│ ├── services/
-│ │ ├── user_service.go
-│ │ └── product_service.go
-│ └── utils/
-│ └── utils.go
-├── pkg/
-│ └── some_package/
-│ └── some_package.go
-├── .env
-├── go.mod
-├── go.sum
-└── README.md
+
+- `--name` to name it.
+- `-p 5432:5432` Expose container's port 5432 to host's port 5432.
+- `-e POSTGRES_PASSWORD=MySecretPassword ` Set the environment variable `POSTGRES_PASSWORD` to "MySecretPassword".
+- `-d` Run the container in detached mode (`-d` flag).
+- `postgres` what image we want to pull.
+
+```
+# List all Docker containers.
+docker ps -a
+
+# Start a Docker container named <docker container name>.
+docker start <docker container name>
+
+# Open a terminal within the Docker container named (express-typescript-postgres-docker).
+sudo docker exec -it express-typescript-postgres-docker bash
+
+# Access the PostgreSQL database.
+psql -U postgres
+
+# List all databases.
+\l
+
+# Connect to a specific database like 'backenddb'.
+\c backenddb
+
 ```
