@@ -86,8 +86,6 @@ Install packages
 
 go get github.com/joho/godotenv
 
-go get github.com/jackc/pgx/v5
+ go get github.com/jackc/pgx/v5
 
 ```
-
-test
