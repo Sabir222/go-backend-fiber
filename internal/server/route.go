@@ -2,9 +2,20 @@ package server
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/sabir222/go-backend-fiber/pkg/handlers"
 )
 
-func SetupRoutes(app *fiber.App) {
-	app.Get("/user", handlers.UserHandler)
+func (s *FiberServer) SetupRoutes() {
+	s.App.Get("/health", s.HandleCheckHealth)
+	s.App.Get("/", s.HelloWorldHandler)
+}
+
+func (s *FiberServer) HelloWorldHandler(c *fiber.Ctx) error {
+	resp := fiber.Map{
+		"message": "Hello World",
+	}
+
+	return c.JSON(resp)
+}
+func (s *FiberServer) HandleCheckHealth(c *fiber.Ctx) error {
+	return c.JSON(s.db.Health())
 }

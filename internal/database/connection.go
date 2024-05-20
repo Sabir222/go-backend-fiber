@@ -8,8 +8,8 @@ import (
 	"os"
 	"time"
 
-	_ "github.com/jackc/pgx/v5/stdlib"    // Import the PostgreSQL driver
-	_ "github.com/joho/godotenv/autoload" // Import the library for loading environment variables
+	_ "github.com/jackc/pgx/v5/stdlib"
+	_ "github.com/joho/godotenv/autoload"
 )
 
 type Service interface {
@@ -22,7 +22,6 @@ type service struct {
 }
 
 var (
-	// Define variables to hold database connection information from environment variables
 	database   = os.Getenv("DB_DATABASE")
 	password   = os.Getenv("DB_PASSWORD")
 	username   = os.Getenv("DB_USERNAME")
@@ -37,7 +36,6 @@ func New() Service {
 	if dbInstance != nil {
 		return dbInstance
 	}
-	// Construct connection string using environment variables
 	connStr := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", username, password, host, port, database)
 	// Establish a new database connection
 	db, err := sql.Open("pgx", connStr)
@@ -48,12 +46,33 @@ func New() Service {
 	dbInstance = &service{
 		db: db,
 	}
+
+	// create user table
+
+	dbInstance.CreateUserTable()
+
 	return dbInstance
 }
 
-// Health checks the health of the database connection
+// createUserTable
+
+func (s *service) CreateUserTable() {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+	_, err := s.db.ExecContext(ctx, `CREATE TABLE IF NOT EXISTS users (
+		id SERIAL PRIMARY KEY,
+		name VARCHAR(50),
+		email VARCHAR(50)
+	)`)
+	if err != nil {
+		log.Fatalf(fmt.Sprintf("cannot create table: %v", err))
+	}
+}
+
+// Using context checking  the health of the database connection
+// use use this in a route to check the health of the database
 func (s *service) Health() map[string]string {
-	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
 	// Ping the database to check its health
