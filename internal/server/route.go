@@ -16,6 +16,7 @@ func (s *FiberServer) HelloWorldHandler(c *fiber.Ctx) error {
 
 	return c.JSON(resp)
 }
+
 func (s *FiberServer) HandleCheckHealth(c *fiber.Ctx) error {
 	return c.JSON(s.db.Health())
 }

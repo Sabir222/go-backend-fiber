@@ -4,8 +4,13 @@ package handlers
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/sabir222/go-backend-fiber/pkg/models"
 )
 
-func UserHandler(c *fiber.Ctx) error {
-	return c.SendString("<div>Hello User </div>")
+type User struct {
+	user models.User
+}
+
+func AddUserHandler(c *fiber.Ctx) {
+	newUser :=
 }
