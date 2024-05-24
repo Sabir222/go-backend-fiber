@@ -6,38 +6,7 @@ This project is organized as follows:
 
 ```plaintext
 myproject/
-├── cmd/
-│   └── main.go
-├── pkg/
-│   ├── handlers/
-│   │   └── user_handler.go
-│   ├── models/
-│   │   └── user.go
-│   ├── repositories/
-│   │   └── user_repository.go
-│   ├── services/
-│   │   └── user_service.go
-│   ├── middlewares/
-│   │   └── auth_middleware.go
-│   └── utils/
-│       └── response.go
-├── internal/
-│   ├── app/
-│   │   └── router.go
-│   ├── database/
-│   │   └── connection.go
-│   └── auth/
-│       └── jwt.go
-├── config/
-│   └── config.go
-├── scripts/
-│   └── migrate.sh
-├── docs/
-│   └── api.md
-├── Makefile
-├── go.mod
-└── go.sum
-
+Add project tree here later.
 ```
 
 ## Connect go to database

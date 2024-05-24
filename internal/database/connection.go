@@ -59,11 +59,23 @@ func New() Service {
 func (s *service) CreateUserTable() {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-	_, err := s.db.ExecContext(ctx, `CREATE TABLE IF NOT EXISTS users (
-		id SERIAL PRIMARY KEY,
-		name VARCHAR(50),
-		email VARCHAR(50)
-	)`)
+
+	_, err := s.db.ExecContext(ctx, "CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\"")
+	if err != nil {
+
+		log.Fatalf(fmt.Sprintf("cannot create extension: %v", err))
+	}
+
+	createUserTableQuery := `CREATE TABLE IF NOT EXISTS users (
+		id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+		full_name VARCHAR(50),
+		password_hash VARCHAR(255) NOT NULL,
+		email VARCHAR(100) UNIQUE NOT NULL,
+		create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		role VARCHAR(10) DEFAULT 'user' CHECK (role IN ('admin', 'user'))
+	)`
+	_, err = s.db.ExecContext(ctx, createUserTableQuery)
 	if err != nil {
 		log.Fatalf(fmt.Sprintf("cannot create table: %v", err))
 	}
