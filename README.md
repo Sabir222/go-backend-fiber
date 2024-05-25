@@ -72,7 +72,6 @@ DB_USERNAME=postgres
 DB_PASSWORD=DB_PASSWORD
 
 ```
-
 - Add connection to database in `internal/database/connection.go`:
 
 ```go
