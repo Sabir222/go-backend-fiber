@@ -14,6 +14,7 @@ import (
 
 type Service interface {
 	Health() map[string]string // Health method checks the health of the database
+	GetDb() *sql.DB
 }
 
 // service is a struct implementing the Service interface
@@ -79,6 +80,10 @@ func (s *service) CreateUserTable() {
 	if err != nil {
 		log.Fatalf(fmt.Sprintf("cannot create table: %v", err))
 	}
+}
+
+func (s *service) GetDb() *sql.DB {
+	return s.db
 }
 
 // Using context checking  the health of the database connection
